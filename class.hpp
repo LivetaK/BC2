@@ -7,34 +7,76 @@ using namespace std;
 
 
 class user {
+
+	private:
+		string name = " ";
+		string public_key = " ";
+		double balance = 0.0;
+	public:
+		void setName(string Name) {
+			name = Name;
+		};
+
+		string getName() {
+			return name;
+		}
+
+		void setPublicKey(string publicKey) {
+			public_key = publicKey;
+		}
+
+		string getPublicKey() {
+			return public_key;
+		}
+
+		void setBalance(double Balance) {
+			balance = Balance;
+		}
+
+		double getBalance() {
+			return balance;
+		}
+
+};
+
+class transaction {
+
 private:
-	string name = " ";
-	string public_key = " ";
-	double balance = 0.0;
+	string transaction_id = " ";
+	string sender = " "; // sintejo viesasis raktas
+	string recipient = " "; // gavejo viesasis raktas
+	double amount = 0.0;
 public:
-	void setname(string Name) {
-		name = Name;
+	void setTransactionId(string tran) {
+		transaction_id = tran;
 	};
 
-	string getname() {
-		return name;
+	string getTransactionId() {
+		return transaction_id;
 	}
 
-	void setpublic_key(string publicKey) {
-		public_key = publicKey;
+	void setSender(string Sender) {
+		sender = Sender;
 	}
 
-	string getPublicKey() {
-		return public_key;
+	string getSender() {
+		return sender;
 	}
 
-	void setbalance(double Balance) {
-		balance = Balance;
+	void setRecipient(string Recipient) {
+		recipient = Recipient;
 	}
 
-	double getbalance() {
-		return balance;
+	string getRecipient() {
+		return recipient;
 	}
 
+	void setAmount(double Amount) {
+		amount = Amount;
+	}
+
+	double getAmount() {
+		return amount;
+	}
 
 };
