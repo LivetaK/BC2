@@ -18,16 +18,14 @@ void generateRandomUsers(vector<user>& randomUsers) {
 
 	srand(time(0));
 
-	string names[] = { "Liveta", "Roberta", "Paulina", "Ugne", "Gabriele", "Kamile", "Marija", "Rugile", "Jovita", "Adriana" };
-
 	for (int i = 0; i < 1000; i++) {
 
 		user tempUser;
 		string key = generateRandomKey();
 
-		tempUser.setName(names[rand() % (sizeof(names) / sizeof(names[0]))]);
+		tempUser.setName("User" + to_string(i));
 		tempUser.setPublicKey(key);
-		tempUser.setBalance(100 + (rand() % 1000000));
+		tempUser.setBalance(rand() % (1000000 - 99) + 100);
 
 		randomUsers.push_back(tempUser);
 	}
