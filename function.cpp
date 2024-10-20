@@ -101,6 +101,7 @@ string tikrinimas(string code) {
 		return code;
 	}
 }
+
 char convertHex(const string& fourBits) {
 	int decimalValue = stoi(fourBits, nullptr, 2);
 	switch (decimalValue) {
