@@ -8,3 +8,4 @@ using namespace std;
 
 void generateRandomUsers(vector<user>& randomUsers);
 string generateRandomKey();
+void generateRandomTransactions(vector<transaction>& tran, vector<user>& updatedUsers);

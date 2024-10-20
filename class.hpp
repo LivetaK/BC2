@@ -6,6 +6,7 @@
 #include <random>
 #include <ctime>
 #include <cstdlib>
+#include <bitset>
 using namespace std;
 
 
