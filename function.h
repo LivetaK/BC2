@@ -1,10 +1,16 @@
 #pragma once
 
-#include "class.hpp"
-#include "function.cpp"
+#include <string>
+#include <vector>
 
 using namespace std;
 
+class user;
+class transaction;
+
+void generateRandomUsers(vector<user>& randomUsers);
+string generateRandomKey();
+void generateRandomTransactions(vector<transaction>& tran, vector<user>& updatedUsers);
 
 void generateRandomUsers(vector<user>& randomUsers);
 string generateRandomKey();

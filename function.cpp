@@ -1,6 +1,11 @@
-#include "class.hpp"
 #include "function.h"
+#include "class.hpp"
 
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <bitset>
 
 using namespace std;
 
