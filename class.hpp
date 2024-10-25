@@ -4,14 +4,13 @@
 #include <vector>
 #include <ctime>
 #include <stdexcept>
-#include "function.h"
 #include <iostream>
 #include <algorithm> 
 #include <iomanip> 
 
 using namespace std;
 
-
+string hashfun(string input);
 
 class user {
 
@@ -206,13 +205,14 @@ class block {
 		}
 
 		void mineBlock() {
-			// Simple mining process
 			do {
 				nonce++;
 				blockHash = calculateBlockHash();
 			} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
 			cout << "Block mined: " << blockHash << endl;
 		}
+
+
 		void printBlock() const {
 			cout << "----------------------------------------" << endl;
 			cout << "Block Hash: " << blockHash << endl;
@@ -220,7 +220,7 @@ class block {
 			struct tm tm_local;
 			errno_t err = localtime_s(&tm_local, &timestamp);
 			if (err == 0) {
-				cout << "Timestamp: " << std::put_time(&tm_local, "%Y-%m-%d %H:%M:%S") << endl;
+				cout << "Timestamp: " << put_time(&tm_local, "%Y-%m-%d %H:%M:%S") << endl;
 			}
 			else {
 				cerr << "Failed to convert time for timestamp." << endl;

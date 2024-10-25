@@ -16,21 +16,23 @@ int main() {
 	vector<user> updatedUsers = randomUsers;
 	vector<transaction> tran;
 	generateRandomTransactions(tran, updatedUsers);
-	
-    // Define genesis block parameters
-    std::string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
-    uint32_t ver = 1;          // Version number
-    uint32_t diffTarget = 4;   // Difficulty target
+	// genesis
+    string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
+    uint32_t ver = 1;
+    uint32_t diffTarget = 5;
 
-    // Create genesis block
-    block genesisBlock(genesisPBH, ver, diffTarget, tran);
+	vector<transaction> genesisBlockTran = selectRandomTransactions(tran);
 
-    // Mine the genesis block
+    block genesisBlock(genesisPBH, ver, diffTarget, genesisBlockTran);
+
     genesisBlock.mineBlock();
 
-    // Print the block details
     genesisBlock.printBlock();
 
-    return 0;
+	// genesis
 
+	vector<transaction> selectedTran = selectRandomTransactions(tran);
+
+
+    return 0;
 }

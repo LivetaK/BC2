@@ -6,6 +6,7 @@
 #include <ctime>
 #include <algorithm>
 #include <bitset>
+#include <random>
 
 using namespace std;
 
@@ -326,3 +327,48 @@ string hashfun(string input) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////// hashinimo funkcija baigesi
+
+
+//vector<transaction> selectRandomTransactions(const vector<transaction>& allTransactions) {
+//	const int numToSelect = 100;
+//	vector<transaction> selectedTransactions;
+//
+//	if (allTransactions.size() <= numToSelect) {
+//		selectedTransactions = allTransactions;
+//	}
+//	else {
+//		vector<size_t> indices(allTransactions.size());
+//		for (size_t i = 0; i < indices.size(); ++i) {
+//			indices[i] = i;
+//		}
+//
+//		// Random number generator
+//		random_device rd;
+//		mt19937 gen(rd());
+//
+//		// Shuffle the indices randomly
+//		shuffle(indices.begin(), indices.end(), gen);
+//
+//		// Select the first 100 transactions based on shuffled indices
+//		for (int i = 0; i < numToSelect; ++i) {
+//			selectedTransactions.push_back(allTransactions[indices[i]]);
+//		}
+//	}
+//
+//	return selectedTransactions;
+//}
+
+vector<transaction> selectRandomTransactions(vector<transaction>& allTransactions) {
+	vector<transaction> selectedTran;
+	if (allTransactions.size() <= 100) {
+		selectedTran = allTransactions;
+	}
+	else {
+		for (int i = 0; i < 100; i++) {
+			int index = rand() % allTransactions.size();
+			selectedTran.push_back(allTransactions[index]);
+			allTransactions.erase(allTransactions.begin() + index);
+		}
+	}
+	return selectedTran;
+}
