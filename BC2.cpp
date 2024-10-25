@@ -16,6 +16,7 @@ int main() {
 	vector<user> updatedUsers = randomUsers;
 	vector<transaction> tran;
 	generateRandomTransactions(tran, updatedUsers);
+	vector<block> blockchain;
 	// genesis
     string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
     uint32_t ver = 1;
@@ -26,12 +27,18 @@ int main() {
     block genesisBlock(genesisPBH, ver, diffTarget, genesisBlockTran);
 
     genesisBlock.mineBlock();
-
+	blockchain.push_back(genesisBlock);
     genesisBlock.printBlock();
 
 	// genesis
-
-	vector<transaction> selectedTran = selectRandomTransactions(tran);
+	while (tran.size() != 0) {
+		vector<transaction> selectedTran = selectRandomTransactions(tran);
+		block newBlock(blockchain[blockchain.size() - 1].getBlockHash(), ver, diffTarget, selectedTran);
+		cout << "-----------------------------------------------------------------------" << endl;
+		newBlock.mineBlock();
+		blockchain.push_back(newBlock);
+		newBlock.printBlock();
+	}
 
 
     return 0;

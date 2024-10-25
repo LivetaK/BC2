@@ -19,4 +19,4 @@ string binaryTohex(string kodas);
 string skaiciavimai(string tempDec);
 string manipulation(string code);
 string hashfun(string input);
-vector<transaction> selectRandomTransactions(const vector<transaction>& allTransactions);
+vector<transaction> selectRandomTransactions(vector<transaction>& allTransactions);

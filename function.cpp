@@ -329,7 +329,7 @@ string hashfun(string input) {
 /////////////////////////////////////////////////////////////////////////////////////////////// hashinimo funkcija baigesi
 
 
-//vector<transaction> selectRandomTransactions(const vector<transaction>& allTransactions) {
+//vector<transaction> selectRandomTransactions(vector<transaction>& allTransactions) {
 //	const int numToSelect = 100;
 //	vector<transaction> selectedTransactions;
 //
@@ -362,6 +362,7 @@ vector<transaction> selectRandomTransactions(vector<transaction>& allTransaction
 	vector<transaction> selectedTran;
 	if (allTransactions.size() <= 100) {
 		selectedTran = allTransactions;
+		allTransactions.clear();
 	}
 	else {
 		for (int i = 0; i < 100; i++) {
