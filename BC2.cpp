@@ -34,7 +34,6 @@ int main() {
 	while (tran.size() != 0) {
 		vector<transaction> selectedTran = selectRandomTransactions(tran);
 		block newBlock(blockchain[blockchain.size() - 1].getBlockHash(), ver, diffTarget, selectedTran);
-		cout << "-----------------------------------------------------------------------" << endl;
 		newBlock.mineBlock();
 		blockchain.push_back(newBlock);
 		newBlock.printBlock();

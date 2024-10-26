@@ -214,8 +214,7 @@ class block {
 
 
 		void printBlock() const {
-			cout << "----------------------------------------" << endl;
-			cout << "Block Hash: " << blockHash << endl;
+			cout << "-------------------------------------------------------------------------------------" << endl;
 			cout << "Previous Block Hash: " << previousBlockHash << endl;
 			struct tm tm_local;
 			errno_t err = localtime_s(&tm_local, &timestamp);
@@ -233,6 +232,8 @@ class block {
 			for (const auto& tx : Transactions) {
 				tx.printTransaction();
 			}
-			cout << "----------------------------------------" << endl;
+			cout << "Block Hash: " << blockHash << endl;
+
+			cout << "-------------------------------------------------------------------------------------" << endl;
 		}
 };

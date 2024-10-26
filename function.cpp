@@ -56,11 +56,11 @@ void generateRandomTransactions(vector<transaction>& tran, vector<user>& updated
 		double amount = 1 + ((double)rand() / RAND_MAX) * (updatedUsers[sender].getBalance() - 1);
 		tempTran.setAmount(amount);
 
-		//double oldSenderBalance = updatedUsers[sender].getBalance();
-		//updatedUsers[sender].setBalance(oldSenderBalance - amount);
+		double oldSenderBalance = updatedUsers[sender].getBalance();
+		updatedUsers[sender].setBalance(oldSenderBalance - amount);
 
-		//double oldRecipientBalance = updatedUsers[recipient].getBalance();
-		//updatedUsers[recipient].setBalance(oldRecipientBalance + amount);
+		double oldRecipientBalance = updatedUsers[recipient].getBalance();
+		updatedUsers[recipient].setBalance(oldRecipientBalance + amount);
 
 		string transactionID = updatedUsers[sender].getPublicKey() + updatedUsers[recipient].getPublicKey() + to_string(amount);
 		tempTran.setTransactionId(hashfun(transactionID));
@@ -328,35 +328,6 @@ string hashfun(string input) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////// hashinimo funkcija baigesi
 
-
-//vector<transaction> selectRandomTransactions(vector<transaction>& allTransactions) {
-//	const int numToSelect = 100;
-//	vector<transaction> selectedTransactions;
-//
-//	if (allTransactions.size() <= numToSelect) {
-//		selectedTransactions = allTransactions;
-//	}
-//	else {
-//		vector<size_t> indices(allTransactions.size());
-//		for (size_t i = 0; i < indices.size(); ++i) {
-//			indices[i] = i;
-//		}
-//
-//		// Random number generator
-//		random_device rd;
-//		mt19937 gen(rd());
-//
-//		// Shuffle the indices randomly
-//		shuffle(indices.begin(), indices.end(), gen);
-//
-//		// Select the first 100 transactions based on shuffled indices
-//		for (int i = 0; i < numToSelect; ++i) {
-//			selectedTransactions.push_back(allTransactions[indices[i]]);
-//		}
-//	}
-//
-//	return selectedTransactions;
-//}
 
 vector<transaction> selectRandomTransactions(vector<transaction>& allTransactions) {
 	vector<transaction> selectedTran;
