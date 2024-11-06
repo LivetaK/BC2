@@ -344,3 +344,21 @@ vector<transaction> selectRandomTransactions(vector<transaction>& allTransaction
 	}
 	return selectedTran;
 }
+
+string calculateBlockHash(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t nonce, uint32_t difficultyTarget) {
+	string data = previousBlockHash + to_string(timestamp) + to_string(version) + merkleRootHash + to_string(nonce) + to_string(difficultyTarget);
+	return hashfun(data);
+}
+
+string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget) {
+	string blockHash;
+	nonce = 0;
+	do {
+		nonce++;
+		blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, nonce, difficultyTarget);
+	} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
+	cout << "Block mined: " << blockHash << endl;
+	return blockHash;
+}
+
+

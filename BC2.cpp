@@ -19,25 +19,30 @@ int main() {
 	vector<block> blockchain;
 	// genesis
     string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
-    uint32_t ver = 1;
     uint32_t diffTarget = 5;
 
 	vector<transaction> genesisBlockTran = selectRandomTransactions(tran);
 
-    block genesisBlock(genesisPBH, ver, diffTarget, genesisBlockTran);
+    block genesisBlock(genesisPBH, diffTarget, genesisBlockTran);
 
-    genesisBlock.mineBlock();
 	blockchain.push_back(genesisBlock);
     genesisBlock.printBlock();
 
-	// genesis
+	// genesis end
 	while (tran.size() != 0) {
+		block lastBlock = blockchain.back();
+		uint64_t nonce = 0;
+		string PBhash = mineBlock(lastBlock.getPBH(), lastBlock.getTimestamp(), lastBlock.getVersion(), lastBlock.getMerkleRootHash(), nonce, lastBlock.getDifficultyTarget());
 		vector<transaction> selectedTran = selectRandomTransactions(tran);
-		block newBlock(blockchain[blockchain.size() - 1].getBlockHash(), ver, diffTarget, selectedTran);
-		newBlock.mineBlock();
+		block newBlock(PBhash, diffTarget, selectedTran);
+		newBlock.setNonce(nonce);
 		blockchain.push_back(newBlock);
 		newBlock.printBlock();
 	}
+	//blockchain[0].printBlock();
+	//blockchain[1].printBlock();
+	//blockchain[2].printBlock();
+
 
 
     return 0;

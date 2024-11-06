@@ -106,19 +106,16 @@ class block {
 		uint64_t nonce;
 		uint32_t difficultyTarget;
 		vector<transaction> Transactions;
-		string blockHash;
-
 	public: 
 
-		block(string PBH, uint32_t ver, uint32_t diffTarget, vector<transaction> tran) {
+		block(string PBH, uint32_t diffTarget, vector<transaction> tran) {
 			previousBlockHash = PBH;
 			timestamp = time(0);
-			version = ver;
+			version = 1;
 			difficultyTarget = diffTarget;
 			nonce = 0;
 			Transactions = tran;
 			merkleRootHash = calculateMerkleRootHash();
-			blockHash = calculateBlockHash();
 		}
 
 
@@ -143,8 +140,6 @@ class block {
 		void setTransactions(vector<transaction> tran) { // visas vektorius
 			Transactions = tran;
 			merkleRootHash = calculateMerkleRootHash();
-			blockHash = calculateBlockHash();
-
 		}
 		vector<transaction> getTransactions() {
 			return Transactions;
@@ -155,7 +150,6 @@ class block {
 		void addTransaction(transaction tran) {
 			Transactions.push_back(tran);
 			merkleRootHash = calculateMerkleRootHash();
-			blockHash = calculateBlockHash();
 		}
 		transaction getTransaction(int i) const {
 			if (i >= 0 && i < Transactions.size()) {
@@ -167,22 +161,30 @@ class block {
 		}
 
 
-		string calculateBlockHash() {
-			string data = previousBlockHash + to_string(timestamp) + to_string(version) + merkleRootHash + to_string(nonce) + to_string(difficultyTarget);
-			return hashfun(data);
-		}
-
 		string calculateMerkleRootHash() {
-					string combinedTransactionHashes;
-					for (auto& tx : Transactions) {
-						combinedTransactionHashes += tx.getTransactionId();
-					}
-					return hashfun(combinedTransactionHashes);
+			vector<string> hashedTransactions;
+				for (auto& tx : Transactions) {
+					string tran = tx.getTransactionId() + tx.getSender() + tx.getRecipient() + to_string(tx.getAmount());
+					hashedTransactions.push_back(hashfun(tran));
 				}
+				while (hashedTransactions.size() > 1) {
+					vector<string> newTransactionVector;
 
-		string getBlockHash() const{
-			return blockHash;
+					if (hashedTransactions.size() % 2 != 0) {
+						hashedTransactions.push_back(hashedTransactions.back());
+					}
+
+					for (int i = 0; i < hashedTransactions.size(); i += 2) {
+						string twoTransactions;
+						string hash = hashfun(hashedTransactions[i] + hashedTransactions[i + 1]);
+						newTransactionVector.push_back(hash);
+					}
+					hashedTransactions = newTransactionVector;
+
+				}
+				return hashfun(hashedTransactions[0]);
 		}
+
 		uint32_t getVersion() const {
 			return version;
 		}
@@ -201,15 +203,6 @@ class block {
 
 		void setNonce(uint64_t n) {
 			nonce = n;
-			blockHash = calculateBlockHash();
-		}
-
-		void mineBlock() {
-			do {
-				nonce++;
-				blockHash = calculateBlockHash();
-			} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
-			cout << "Block mined: " << blockHash << endl;
 		}
 
 
@@ -229,10 +222,9 @@ class block {
 			cout << "Nonce: " << nonce << endl;
 			cout << "Difficulty Target: " << difficultyTarget << endl;
 			cout << "Transactions:" << endl;
-			for (const auto& tx : Transactions) {
+			/*for (const auto& tx : Transactions) {
 				tx.printTransaction();
-			}
-			cout << "Block Hash: " << blockHash << endl;
+			}*/
 
 			cout << "-------------------------------------------------------------------------------------" << endl;
 		}

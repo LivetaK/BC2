@@ -20,3 +20,5 @@ string skaiciavimai(string tempDec);
 string manipulation(string code);
 string hashfun(string input);
 vector<transaction> selectRandomTransactions(vector<transaction>& allTransactions);
+string calculateBlockHash(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t nonce, uint32_t difficultyTarget);
+string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget);
