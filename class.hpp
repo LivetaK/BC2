@@ -88,10 +88,10 @@ class transaction {
 		transaction() = default;
 
 		void printTransaction() const {
-			cout << "Transaction ID: " << transaction_id << endl;
-			cout << "Sender: " << sender << endl;
-			cout << "Recipient: " << recipient << endl;
-			cout << "Amount: " << amount << endl;
+			cout << "Transaction ID:         " << transaction_id << endl;
+			cout << "Sender:				 " << sender << endl;
+			cout << "Recipient:				 " << recipient << endl;
+			cout << "Amount:				 " << amount << endl;
 		}
 };
 
@@ -207,25 +207,27 @@ class block {
 
 
 		void printBlock() const {
-			cout << "-------------------------------------------------------------------------------------" << endl;
-			cout << "Previous Block Hash: " << previousBlockHash << endl;
+
+			cout << "******************************************************************************************" << endl;
+			cout << "Previous Block Hash:    " << previousBlockHash << endl;
 			struct tm tm_local;
 			errno_t err = localtime_s(&tm_local, &timestamp);
 			if (err == 0) {
-				cout << "Timestamp: " << put_time(&tm_local, "%Y-%m-%d %H:%M:%S") << endl;
+				cout << "Timestamp:              " << put_time(&tm_local, "%Y-%m-%d %H:%M:%S") << endl;
 			}
 			else {
 				cerr << "Failed to convert time for timestamp." << endl;
-			}
-			cout << "Version: " << version << endl;
-			cout << "Merkle Root Hash: " << merkleRootHash << endl;
-			cout << "Nonce: " << nonce << endl;
-			cout << "Difficulty Target: " << difficultyTarget << endl;
-			cout << "Transactions:" << endl;
-			/*for (const auto& tx : Transactions) {
+			}		
+			cout << "Version:                " << version << endl;
+			cout << "Merkle Root Hash:       " << merkleRootHash << endl;
+			cout << "Nonce:                  " << nonce << endl;
+			cout << "Difficulty Target:      " << difficultyTarget << endl;
+			cout << "------------------------------------------------------------------------------------------" << endl;
+			cout << "                                      TRANSACTIONS                                        " << endl;
+			cout << "------------------------------------------------------------------------------------------" << endl;
+			for (const auto& tx : Transactions) {
 				tx.printTransaction();
-			}*/
+			}
 
-			cout << "-------------------------------------------------------------------------------------" << endl;
 		}
 };

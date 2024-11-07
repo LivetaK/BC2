@@ -12,7 +12,7 @@ class block;
 
 void generateRandomUsers(vector<user>& randomUsers);
 string generateRandomKey();
-void generateRandomTransactions(vector<transaction>& tran, vector<user>& updatedUsers);
+void generateRandomTransactions(vector<transaction>& pendingTransactions, vector<user>& updatedUsers);
 string tikrinimas(string code);
 char convertHex(const string& fourBits);
 string binaryTohex(string kodas);

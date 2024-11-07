@@ -36,7 +36,7 @@ void generateRandomUsers(vector<user>& randomUsers) {
 }
 
 
-void generateRandomTransactions(vector<transaction>& tran, vector<user>& updatedUsers) {
+void generateRandomTransactions(vector<transaction>& pendingTransactions, vector<user>& updatedUsers) {
 
 	for (int i = 0; i < 10000; i++){
 
@@ -65,10 +65,9 @@ void generateRandomTransactions(vector<transaction>& tran, vector<user>& updated
 		string transactionID = updatedUsers[sender].getPublicKey() + updatedUsers[recipient].getPublicKey() + to_string(amount);
 		tempTran.setTransactionId(hashfun(transactionID));
 
-		tran.push_back(tempTran);
+		pendingTransactions.push_back(tempTran);
 	}
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////////// hashinimo funkcija
 string tikrinimas(string code) {
 	if (code.length() > 256) {
@@ -357,7 +356,7 @@ string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, s
 		nonce++;
 		blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, nonce, difficultyTarget);
 	} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
-	cout << "Block mined: " << blockHash << endl;
+	//cout << "Block mined: " << blockHash << endl;
 	return blockHash;
 }
 

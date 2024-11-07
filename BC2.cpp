@@ -12,10 +12,8 @@ int main() {
 
 	vector<user> randomUsers;
 	generateRandomUsers(randomUsers);
-
-	vector<user> updatedUsers = randomUsers;
 	vector<transaction> tran;
-	generateRandomTransactions(tran, updatedUsers);
+	generateRandomTransactions(tran, randomUsers);
 	vector<block> blockchain;
 	// genesis
     string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
@@ -39,11 +37,6 @@ int main() {
 		blockchain.push_back(newBlock);
 		newBlock.printBlock();
 	}
-	//blockchain[0].printBlock();
-	//blockchain[1].printBlock();
-	//blockchain[2].printBlock();
-
-
 
     return 0;
 }
