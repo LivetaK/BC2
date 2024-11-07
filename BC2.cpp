@@ -76,7 +76,7 @@ int main() {
 				get_block(argument, blockchain);
 			}
 			else {
-				cout << "Nenurodyta bloko mai6os funkcija." << std::endl;
+				cout << "Nenurodyta bloko maisos funkcija." << std::endl;
 			}
 		}
 		else {

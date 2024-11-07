@@ -48,6 +48,11 @@ void generateRandomTransactions(vector<transaction>& pendingTransactions, vector
 
 
 		int recipient = rand() % updatedUsers.size(); //random indeksas
+
+
+
+
+
 		while (recipient == sender) {
 			recipient = rand() % updatedUsers.size();
 		}
