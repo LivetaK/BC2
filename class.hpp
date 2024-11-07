@@ -88,10 +88,10 @@ class transaction {
 		transaction() = default;
 
 		void printTransaction() const {
-			cout << "Transaction ID:         " << transaction_id << endl;
-			cout << "Sender:				 " << sender << endl;
-			cout << "Recipient:				 " << recipient << endl;
-			cout << "Amount:				 " << amount << endl;
+			cout << "Transaction ID:_________" << transaction_id << endl;
+			cout << "Sender:_________________" << sender << endl;
+			cout << "Recipient:______________" << recipient << endl;
+			cout << "Amount:_________________" << amount << endl;
 		}
 };
 
@@ -228,6 +228,7 @@ class block {
 			for (const auto& tx : Transactions) {
 				tx.printTransaction();
 			}
-
+			cout << endl;
+			cout << endl;
 		}
 };
