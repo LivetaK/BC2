@@ -10,6 +10,7 @@
 
 using namespace std;
 
+
 string generateRandomKey() {
 	char characters[] = "0123456789ABCDEF";
 	string key;
@@ -56,16 +57,22 @@ void generateRandomTransactions(vector<transaction>& pendingTransactions, vector
 		double amount = 1 + ((double)rand() / RAND_MAX) * (updatedUsers[sender].getBalance() - 1);
 		tempTran.setAmount(amount);
 
-		/*double oldSenderBalance = updatedUsers[sender].getBalance();
-		updatedUsers[sender].setBalance(oldSenderBalance - amount);
 
-		double oldRecipientBalance = updatedUsers[recipient].getBalance();
-		updatedUsers[recipient].setBalance(oldRecipientBalance + amount);*/
 
-		string transactionID = updatedUsers[sender].getPublicKey() + updatedUsers[recipient].getPublicKey() + to_string(amount);
+		string transactionID = hashfun(updatedUsers[sender].getPublicKey() + updatedUsers[recipient].getPublicKey() + to_string(amount));
+
 		tempTran.setTransactionId(hashfun(transactionID));
+		bool verify = transactionVerification(updatedUsers[sender].getPublicKey(), updatedUsers[recipient].getPublicKey(), amount, transactionID, updatedUsers[sender].getBalance());
+		if (verify = true) {
 
-		pendingTransactions.push_back(tempTran);
+			pendingTransactions.push_back(tempTran);
+
+			double oldSenderBalance = updatedUsers[sender].getBalance();
+			updatedUsers[sender].setBalance(oldSenderBalance - amount);
+
+			double oldRecipientBalance = updatedUsers[recipient].getBalance();
+			updatedUsers[recipient].setBalance(oldRecipientBalance + amount);
+		}
 	}
 }
 
@@ -101,4 +108,39 @@ string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, s
 	return blockHash;
 }
 
+void get_block(string blockHash, vector<block>& blockchain) {
 
+		for (int i = 1; i < blockchain.size(); i++) {
+			if (blockchain[i].getPBH() == blockHash) {
+				blockchain[i-1].printBlock();
+				return;
+			}
+		}
+
+	cout << "Tokio bloko nera" << endl;
+}
+
+void get_transaction(string transactionId, vector<block>& blockchain) {
+	for (auto& b : blockchain) {
+		vector<transaction>& allTransactions = b.getTransactions();
+		for (int i = 0; i < allTransactions.size(); i++) {
+			if (allTransactions[i].getTransactionId() == transactionId) {
+				allTransactions[i].printTransaction();
+				return;
+			}
+		}
+	}
+	cout << "Tokios transakcijos nera" << endl;
+}
+
+
+
+bool transactionVerification(string spk, string rpk, double amount, string tranHash, double oldSenderBalance) {
+	
+	string hash = hashfun(spk + rpk + to_string(amount));
+
+	if (hash != tranHash || oldSenderBalance < amount) {
+		return false;
+	}
+
+}

@@ -1,7 +1,10 @@
-#include "class.hpp"
-#include "function.h"
 #include <iostream>
 #include <cstdlib>
+#include <string>
+#include <sstream>
+
+#include "class.hpp"
+#include "function.h"
 
 using namespace std;
 
@@ -24,7 +27,7 @@ int main() {
     block genesisBlock(genesisPBH, diffTarget, genesisBlockTran);
 
 	blockchain.push_back(genesisBlock);
-    genesisBlock.printBlock();
+    //genesisBlock.printBlock();
 
 	// genesis end
 	while (tran.size() != 0) {
@@ -35,8 +38,52 @@ int main() {
 		block newBlock(PBhash, diffTarget, selectedTran);
 		newBlock.setNonce(nonce);
 		blockchain.push_back(newBlock);
-		newBlock.printBlock();
+		//newBlock.printBlock();
 	}
+	cout << "Transakcijos sugeneruotos" << endl;
+	cout << endl;
+
+	cout << "Jei norite pamatyti tam tikra transakcija, iveskite 'outTransaction transactionID'," << endl;
+	cout << "transactionID pakeisdami realiu transakcijos ID" << endl;
+	cout << endl;
+	cout << "Jei norite pamatyti tam tikra bloka, iveskite 'outBlock blockHash'," << endl;
+	cout << "blockHash pakeisdami realia bloko maisos reiksme" << endl;
+	cout << endl;
+	cout << "Noredami iseiti is programos, iveskite 'end'" << endl;
+
+	string input;
+
+	while (true) {
+		cout << "Iveskite komanda: ";
+		getline(cin, input);
+		if (input == "end") {
+			break;
+		}
+		istringstream input_stream(input);
+		string command, argument;
+		input_stream >> command >> argument;
+
+		if (command == "outTransaction") {
+			if (!argument.empty()) {
+				get_transaction(argument, blockchain);
+			}
+			else {
+				cout << "Nenurodytas transakcijos ID." << std::endl;
+			}
+		}
+		else if (command == "outBlock") {
+			if (!argument.empty()) {
+				get_block(argument, blockchain);
+			}
+			else {
+				cout << "Nenurodyta bloko mai6os funkcija." << std::endl;
+			}
+		}
+		else {
+			cout << "Neteisinga ivestis." << std::endl;
+		}
+	}
+
 
     return 0;
 }

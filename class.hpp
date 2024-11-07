@@ -85,6 +85,7 @@ class transaction {
 		double getAmount() {
 			return amount;
 		}
+
 		transaction() = default;
 
 		void printTransaction() const {
@@ -141,7 +142,10 @@ class block {
 			Transactions = tran;
 			merkleRootHash = calculateMerkleRootHash();
 		}
-		vector<transaction> getTransactions() {
+		vector<transaction> &getTransactions() {
+			return Transactions;
+		}
+		const vector<transaction>& getTransactions() const {
 			return Transactions;
 		}
 
