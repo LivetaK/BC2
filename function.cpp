@@ -7,6 +7,7 @@
 #include <ctime>
 #include <algorithm>
 #include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -113,7 +114,20 @@ string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, s
 	//cout << "Block mined: " << blockHash << endl;
 	return blockHash;
 }
+string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget, chrono::steady_clock::time_point endTime) {
+	string blockHash;
+	nonce = 0;
+	do {
+		nonce++;
+		blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, nonce, difficultyTarget);
+		if (chrono::steady_clock::now() >= endTime) {
+			return "";
+		}
 
+	} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
+
+	return blockHash;
+}
 void get_block(string blockHash, vector<block>& blockchain) {
 
 		for (int i = 1; i < blockchain.size(); i++) {

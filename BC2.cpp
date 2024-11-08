@@ -22,7 +22,7 @@ int main() {
 	vector<block> blockchain;
 	// genesis
     string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
-    uint32_t diffTarget = 5;
+    uint32_t diffTarget = 8;
 
 	vector<transaction> genesisBlockTran = selectRandomTransactions(tran);
 
@@ -111,25 +111,26 @@ int main() {
 				newBlock.printBlock();
 				cout << i << " blokas sugeneruotas" << endl;
 			}
-			auto start = chrono::steady_clock::now();
-			auto end = start + chrono::seconds(5);
+
 			string candidateMining = "";
+			bool blockMined = false;
 
 			for (int i = 0; i < 5; i++) {
-				while (chrono::steady_clock::now() < end) {
-					candidateMining = mineBlock(candidates[i].getPBH(), candidates[i].getTimestamp(), candidates[i].getVersion(), candidates[i].getMerkleRootHash(), nonce, candidates[i].getDifficultyTarget());
+				auto start = chrono::steady_clock::now();
+				auto end = start + chrono::seconds(5);
+				candidateMining = mineBlock(candidates[i].getPBH(), candidates[i].getTimestamp(), candidates[i].getVersion(), candidates[i].getMerkleRootHash(), nonce, candidates[i].getDifficultyTarget(), end);
 			
-					if (!candidateMining.empty()) {
-						cout << "Blokas iskastas - " << candidateMining << endl;
-						cout << "Is " << i << " bandymo" << endl;
-						break;
-					}
-				}
 				if (!candidateMining.empty()) {
+					cout << "Blokas iskastas - " << candidateMining << endl;
+					cout << "Is " << i +1 << " bandymo" << endl;
+					blockMined = true;
 					break;
 				}
+				if (chrono::steady_clock::now() >= end) {
+					cout << "Laiko limitas pasiektas. Stabdomas " << i+1 << " bloko kasimas." << endl;
+				}
 			}
-			if (candidateMining.empty()) {
+			if (!blockMined) {
 				cout << "Nei vienas is 5 bloku nebuvo iskastas" << endl;;
 			}
 		}
