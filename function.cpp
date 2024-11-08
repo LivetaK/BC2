@@ -97,6 +97,7 @@ vector<transaction> selectRandomTransactions(vector<transaction>& allTransaction
 	return selectedTran;
 }
 
+
 string calculateBlockHash(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t nonce, uint32_t difficultyTarget) {
 	string data = previousBlockHash + to_string(timestamp) + to_string(version) + merkleRootHash + to_string(nonce) + to_string(difficultyTarget);
 	return hashfun(data);
