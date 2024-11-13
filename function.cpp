@@ -9,6 +9,8 @@
 #include <random>
 #include <chrono>
 
+#include <omp.h>
+
 using namespace std;
 
 
@@ -104,14 +106,44 @@ string calculateBlockHash(string previousBlockHash, time_t timestamp, uint32_t v
 	return hashfun(data);
 }
 
+//string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget) {
+//	string blockHash;
+//	nonce = 0;
+//	do {
+//		nonce++;
+//		blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, nonce, difficultyTarget);
+//	} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
+//	//cout << "Block mined: " << blockHash << endl;
+//	return blockHash;
+//}
 string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget) {
 	string blockHash;
-	nonce = 0;
-	do {
-		nonce++;
-		blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, nonce, difficultyTarget);
-	} while (blockHash.substr(0, difficultyTarget) != string(difficultyTarget, '0'));
-	//cout << "Block mined: " << blockHash << endl;
+	bool blockFound = false;
+	uint64_t Nonce;
+
+	omp_set_num_threads(12);
+
+#pragma omp parallel private(Nonce, blockHash)
+	{
+		Nonce = omp_get_thread_num();
+		while (!blockFound) {
+			blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, Nonce, difficultyTarget);
+
+			if (blockHash.substr(0, difficultyTarget) == string(difficultyTarget, '0')) { 
+#pragma omp critical
+				{
+					if (!blockFound) {
+						blockFound = true;
+						nonce = Nonce;
+					}
+				}
+			}
+			else {
+				Nonce += omp_get_num_threads();
+			}
+#pragma omp flush(blockFound)
+		}
+	}
 	return blockHash;
 }
 string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget, chrono::steady_clock::time_point endTime) {

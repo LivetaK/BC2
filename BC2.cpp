@@ -22,7 +22,7 @@ int main() {
 	vector<block> blockchain;
 	// genesis
     string genesisPBH = "0000000000000000000000000000000000000000000000000000000000000000";
-    uint32_t diffTarget = 8;
+    uint32_t diffTarget = 5;
 
 	vector<transaction> genesisBlockTran = selectRandomTransactions(tran);
 
