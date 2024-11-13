@@ -1,6 +1,7 @@
 # BC2
 <h1>V0.3</h1>
 V0.3 veikia taip pat kaip V0.2, tik blokų kasimo funkcijoje pridėtas paralelinis skaičiavimas:
+
 ```
 string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget) {
 	string blockHash;
