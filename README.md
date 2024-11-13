@@ -1,4 +1,38 @@
 # BC2
+<h1>V0.3</h1>
+V0.3 veikia taip pat kaip V0.2, tik blokų kasimo funkcijoje pridėtas paralelinis skaičiavimas:
+```
+string mineBlock(string previousBlockHash, time_t timestamp, uint32_t version, string merkleRootHash, uint64_t& nonce, uint32_t difficultyTarget) {
+	string blockHash;
+	bool blockFound = false;
+	uint64_t Nonce;
+
+	omp_set_num_threads(12);
+
+#pragma omp parallel private(Nonce, blockHash)
+	{
+		Nonce = omp_get_thread_num();
+		while (!blockFound) {
+			blockHash = calculateBlockHash(previousBlockHash, timestamp, version, merkleRootHash, Nonce, difficultyTarget);
+
+			if (blockHash.substr(0, difficultyTarget) == string(difficultyTarget, '0')) { 
+#pragma omp critical
+				{
+					if (!blockFound) {
+						blockFound = true;
+						nonce = Nonce;
+					}
+				}
+			}
+			else {
+				Nonce += omp_get_num_threads();
+			}
+#pragma omp flush(blockFound)
+		}
+	}
+	return blockHash;
+}
+```
 
 <h1>V0.2</h1>
 <h2>Kaip veikia programa?</h2>
